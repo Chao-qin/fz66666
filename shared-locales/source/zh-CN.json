@@ -274,7 +274,7 @@
     "companySearchPlaceholder": "输入公司名称搜索",
     "companyNotFound": "未找到匹配的公司",
     "platformLogin": "平台管理员登录",
-    "companyLogin": "返回企业登录",
+    "companyLogin": "企业登录",
     "companySelectRequired": "请搜索并选择公司",
     "companySelectFromResult": "请从搜索结果中选择公司",
     "companySelectedPrefix": "✓ 已选择：",

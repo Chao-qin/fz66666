@@ -274,7 +274,7 @@
     "companySearchPlaceholder": "Nhập tên công ty để tìm kiếm",
     "companyNotFound": "Không tìm thấy công ty phù hợp",
     "platformLogin": "Đăng nhập quản trị viên nền tảng",
-    "companyLogin": "Quay lại đăng nhập công ty",
+    "companyLogin": "Đăng nhập công ty",
     "companySelectRequired": "Vui lòng tìm kiếm và chọn công ty",
     "companySelectFromResult": "Vui lòng chọn công ty từ kết quả tìm kiếm",
     "companySelectedPrefix": "✓ Đã chọn: ",
