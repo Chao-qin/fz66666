@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import api from '@/utils/api';
+import api, { unwrapApiData } from '@/utils/api';
 
 interface DelayedItem {
   id: string;
@@ -61,12 +61,16 @@ export const useDelayedStageBreakdown = (options: UseDelayedStageBreakdownOption
     setLoading(true);
     try {
       const result = await api.get('/dashboard/delayed-stage-breakdown');
-      // api.get 返回 axios response，result.data = { code: 200, data: { bulkDelayed: [...], ... } }
-      const raw = result?.data;
-      const resp = raw?.data && typeof raw.data === 'object' ? raw.data : raw && typeof raw === 'object' ? raw : null;
-      if (resp) {
-        setData(resp as DelayedStageBreakdownData);
-      }
+      const response = unwrapApiData<Partial<DelayedStageBreakdownData> | null>(
+        result, '获取延期环节统计失败',
+      );
+      // 平台超管没有租户时，接口可能返回省略列表和总数的空对象。
+      setData({
+        bulkDelayed: Array.isArray(response?.bulkDelayed) ? response.bulkDelayed : [],
+        sampleDelayed: Array.isArray(response?.sampleDelayed) ? response.sampleDelayed : [],
+        bulkTotal: response?.bulkTotal ?? 0,
+        sampleTotal: response?.sampleTotal ?? 0,
+      });
     } catch (error) {
       console.error('Failed to load delayed stage breakdown:', error);
     } finally {
