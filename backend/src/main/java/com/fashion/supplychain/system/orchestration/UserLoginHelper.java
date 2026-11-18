@@ -47,12 +47,12 @@ public class UserLoginHelper {
     @Autowired
     private SmsLoginHelper smsLoginHelper;
 
-    public Map<String, Object> loginWithToken(User loginData) {
+    public Map<String, Object> loginWithToken(User loginData, boolean platform) {
         String username = loginData == null ? null : safeTrim(loginData.getUsername());
         String password = loginData == null ? null : safeTrim(loginData.getPassword());
-        Long tenantId = loginData == null ? null : loginData.getTenantId();
+        Long tenantId = platform || loginData == null ? null : loginData.getTenantId();
         User user = userService.login(username, password, tenantId);
-        if (user == null) {
+        if (user == null || (platform && !Boolean.TRUE.equals(user.getIsSuperAdmin()))) {
             throw new IllegalStateException("用户名或密码错误");
         }
         return buildLoginPayload(user, "PC登录");

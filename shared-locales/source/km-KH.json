@@ -273,6 +273,8 @@
     "company": "ក្រុមហ៊ុន",
     "companySearchPlaceholder": "បញ្ចូលឈ្មោះក្រុមហ៊ុនសម្រាប់ស្វែងរក",
     "companyNotFound": "រកមិនឃើញក្រុមហ៊ុនដែលត្រូវគ្នា",
+    "platformLogin": "ចូលជាអ្នកគ្រប់គ្រងវេទិកា",
+    "companyLogin": "ត្រឡប់ទៅការចូលរបស់ក្រុមហ៊ុន",
     "companySelectRequired": "សូមស្វែងរក ហើយជ្រើសរើសក្រុមហ៊ុន",
     "companySelectFromResult": "សូមជ្រើសរើសក្រុមហ៊ុនពីលទ្ធផលស្វែងរក",
     "companySelectedPrefix": "✓ បានជ្រើសរើស៖ ",

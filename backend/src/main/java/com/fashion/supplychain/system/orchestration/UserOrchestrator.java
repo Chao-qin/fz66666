@@ -212,7 +212,9 @@ public class UserOrchestrator {
         return true;
     }
 
-    public Map<String, Object> loginWithToken(User loginData) { return loginHelper.loginWithToken(loginData); }
+    public Map<String, Object> loginWithToken(User loginData, boolean platform) {
+        return loginHelper.loginWithToken(loginData, platform);
+    }
     public Map<String, Object> sendLoginSmsCode(String phone, Long tenantId) { return loginHelper.sendLoginSmsCode(phone, tenantId); }
     public Map<String, Object> loginWithPhoneCode(String phone, String code, Long tenantId) { return loginHelper.loginWithPhoneCode(phone, code, tenantId); }
     public void assertLoginAllowed(String username, String ip) { loginHelper.assertLoginAllowed(username, ip); }

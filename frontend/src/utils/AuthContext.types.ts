@@ -43,7 +43,7 @@ export interface UserContextType {
 export interface AuthStateContextType {
   isAuthenticated: boolean;
   loading: boolean;
-  login: (username: string, password: string, tenantId?: number) => Promise<{ success: boolean; user?: UserInfo }>;
+  login: (username: string, password: string, tenantId?: number, platform?: boolean) => Promise<{ success: boolean; user?: UserInfo }>;
   loginWithSms: (phone: string, code: string, tenantId?: number) => Promise<{ success: boolean; user?: UserInfo }>;
   sendLoginSmsCode: (phone: string, tenantId?: number) => Promise<Record<string, unknown>>;
   logout: () => void;

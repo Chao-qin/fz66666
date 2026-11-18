@@ -160,11 +160,21 @@ public class UserController {
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
     public Result<?> login(@RequestBody User loginData, HttpServletRequest request) {
+        return login(loginData, request, false);
+    }
+
+    @PostMapping("/login/platform")
+    @PreAuthorize("permitAll()")
+    public Result<?> loginPlatform(@RequestBody User loginData, HttpServletRequest request) {
+        return login(loginData, request, true);
+    }
+
+    private Result<?> login(User loginData, HttpServletRequest request, boolean platform) {
         String username = loginData == null ? null : loginData.getUsername();
         String ip = resolveClientIp(request);
         userOrchestrator.assertLoginAllowed(safeTrim(username), safeTrim(ip));
         try {
-            Object payloadObj = userOrchestrator.loginWithToken(loginData);
+            Object payloadObj = userOrchestrator.loginWithToken(loginData, platform);
             User user = null;
             if (payloadObj instanceof java.util.Map<?, ?> map) {
                 Object u = map.get("user");

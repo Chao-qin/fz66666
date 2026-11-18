@@ -12,6 +12,7 @@ export interface UseLoginDataReturn {
   form: ReturnType<typeof Form.useForm>[0];
   submitting: boolean;
   loginMode: LoginMode;
+  setLoginMode: Dispatch<SetStateAction<LoginMode>>;
   smsSending: boolean;
   smsCountdown: number;
   selectedTenant: TenantOption | null;
@@ -33,7 +34,7 @@ export const useLoginData = (): UseLoginDataReturn => {
   const { login, loginWithSms, sendLoginSmsCode } = useAuthState();
   const { language } = useAppLanguage();
   const [submitting, setSubmitting] = useState(false);
-  const [loginMode] = useState<LoginMode>('password');
+  const [loginMode, setLoginMode] = useState<LoginMode>('password');
   const [smsSending, setSmsSending] = useState(false);
   const [smsCountdown, setSmsCountdown] = useState(0);
   const { message } = App.useApp();
@@ -168,15 +169,17 @@ export const useLoginData = (): UseLoginDataReturn => {
 
   const handleLogin = async (values: LoginFormValues) => {
     if (submitting) return;
-    if (!selectedTenant) {
+    if (loginMode !== 'platform' && !selectedTenant) {
       message.error(t('login.companySelectRequired', language));
       return;
     }
     setSubmitting(true);
     try {
-      const authResult = loginMode === 'password'
-        ? await login(String(values.username || '').trim(), String(values.password || '').trim(), selectedTenant.id)
-        : await loginWithSms(String(values.phone || '').trim(), String(values.smsCode || '').trim(), selectedTenant.id);
+      const platform = loginMode === 'platform';
+      const tenantId = platform ? undefined : selectedTenant?.id;
+      const authResult = loginMode === 'sms'
+        ? await loginWithSms(String(values.phone || '').trim(), String(values.smsCode || '').trim(), tenantId)
+        : await login(String(values.username || '').trim(), String(values.password || '').trim(), tenantId, platform);
       const { success, user } = authResult;
       if (success) {
         message.success(t('login.loginSuccess', language));
@@ -196,6 +199,7 @@ export const useLoginData = (): UseLoginDataReturn => {
     form,
     submitting,
     loginMode,
+    setLoginMode,
     smsSending,
     smsCountdown,
     selectedTenant,

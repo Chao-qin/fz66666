@@ -32,6 +32,7 @@ public final class SecurityConstants {
             "/api/system/tenant/apply",
             "/api/system/tenant/public-list",
             "/api/system/user/login",
+            "/api/system/user/login/platform",
             "/api/system/user/refresh-token",
             "/api/auth/register",
             "/openapi/**",
