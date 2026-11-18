@@ -6,7 +6,7 @@ export interface TenantOption {
   tenantName: string;
 }
 
-export type LoginMode = 'password' | 'sms';
+export type LoginMode = 'password' | 'sms' | 'platform';
 
 export interface LoginFormValues {
   tenantId: number;

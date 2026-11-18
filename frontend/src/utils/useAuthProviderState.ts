@@ -122,9 +122,10 @@ export const useAuthProviderState = () => {
     throw new Error(defaultErrorMessage);
   }, [updateUser]);
 
-  const login = useCallback(async (username: string, password: string, tenantId?: number): Promise<{ success: boolean; user?: UserInfo }> => {
+  const login = useCallback(async (username: string, password: string, tenantId?: number, platform = false): Promise<{ success: boolean; user?: UserInfo }> => {
     try {
-      const response = (await api.post('/system/user/login', { username, password, tenantId })) as {
+      const endpoint = platform ? '/system/user/login/platform' : '/system/user/login';
+      const response = (await api.post(endpoint, { username, password, tenantId })) as {
         code?: number;
         data?: Record<string, unknown> & { token?: unknown; user?: Record<string, unknown> };
       };

@@ -10,6 +10,7 @@ interface LoginFormProps {
   form: FormInstance;
   submitting: boolean;
   loginMode: LoginMode;
+  setLoginMode: (mode: LoginMode) => void;
   smsSending: boolean;
   smsCountdown: number;
   selectedTenant: TenantOption | null;
@@ -26,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   form,
   submitting,
   loginMode,
+  setLoginMode,
   smsSending,
   smsCountdown,
   selectedTenant,
@@ -39,6 +41,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   const navigate = useNavigate();
   const { language } = useAppLanguage();
+  const platform = loginMode === 'platform';
 
   return (
     <Form
@@ -50,9 +53,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
     >
       <Form.Item name="tenantId" hidden><Input autoComplete="off" /></Form.Item>
       <Form.Item
+        hidden={platform}
         name="companySearch"
         htmlFor="login_companySearch"
-        rules={[
+        rules={platform ? [] : [
           { required: true, message: t('login.companySelectRequired', language) },
           {
             validator: (_, value) => {
@@ -87,7 +91,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           />
         </AutoComplete>
       </Form.Item>
-      {loginMode === 'password' ? (
+      {loginMode !== 'sms' ? (
         <>
           <Form.Item
             name="username"
@@ -176,10 +180,18 @@ const LoginForm: React.FC<LoginFormProps> = ({
           size="large"
           loading={submitting}
         >
-          {loginMode === 'password' ? t('login.submit', language) : '验证码登录'}
+          {loginMode === 'sms' ? '验证码登录' : t(platform ? 'login.platformLogin' : 'login.submit', language)}
         </Button>
       </Form.Item>
       <Form.Item wrapperCol={{ span: 24 }} style={{ marginBottom: 0 }}>
+        <Button
+          type="link"
+          className="login-register-button"
+          disabled={submitting}
+          onClick={() => setLoginMode(platform ? 'password' : 'platform')}
+        >
+          {t(platform ? 'login.companyLogin' : 'login.platformLogin', language)}
+        </Button>
         <Button
           type="link"
           onClick={() => navigate('/register')}

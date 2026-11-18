@@ -13,6 +13,7 @@ const Login: React.FC = () => {
     form,
     submitting,
     loginMode,
+    setLoginMode,
     smsSending,
     smsCountdown,
     selectedTenant,
@@ -62,6 +63,7 @@ const Login: React.FC = () => {
               form={form}
               submitting={submitting}
               loginMode={loginMode}
+              setLoginMode={setLoginMode}
               smsSending={smsSending}
               smsCountdown={smsCountdown}
               selectedTenant={selectedTenant}
