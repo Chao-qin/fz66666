@@ -34,7 +34,9 @@ export const useLoginData = (): UseLoginDataReturn => {
   const { login, loginWithSms, sendLoginSmsCode } = useAuthState();
   const { language } = useAppLanguage();
   const [submitting, setSubmitting] = useState(false);
-  const [loginMode, setLoginMode] = useState<LoginMode>('password');
+  const [selectedLoginMode, setLoginMode] = useState<LoginMode | null>(null);
+  const [hasNoActiveCompanies, setHasNoActiveCompanies] = useState(false);
+  const loginMode = selectedLoginMode ?? (hasNoActiveCompanies ? 'platform' : 'password');
   const [smsSending, setSmsSending] = useState(false);
   const [smsCountdown, setSmsCountdown] = useState(0);
   const { message } = App.useApp();
@@ -53,6 +55,7 @@ export const useLoginData = (): UseLoginDataReturn => {
       const res = await api.get('/system/tenant/public-list', { timeout: 8000, retry: -1 } as any) as { code?: number; data?: TenantOption[] };
       if (res?.code === 200 && Array.isArray(res.data)) {
         tenantsRef.current = res.data;
+        setHasNoActiveCompanies(res.data.length === 0);
         if (res.data.length === 1) {
           setSelectedTenant(res.data[0]);
           form.setFieldsValue({ companySearch: res.data[0].tenantName, tenantId: res.data[0].id });

@@ -274,7 +274,7 @@
     "companySearchPlaceholder": "Search company name",
     "companyNotFound": "No matching company found",
     "platformLogin": "Platform administrator sign-in",
-    "companyLogin": "Back to company sign-in",
+    "companyLogin": "Company sign-in",
     "companySelectRequired": "Please search and select a company",
     "companySelectFromResult": "Please choose a company from search results",
     "companySelectedPrefix": "✓ Selected: ",

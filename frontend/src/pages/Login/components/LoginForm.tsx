@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, AutoComplete, FormInstance } from 'antd';
+import { Form, Input, Button, AutoComplete, Segmented, FormInstance } from 'antd';
 import { UserOutlined, LockOutlined, SearchOutlined, PhoneOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { t } from '../../../i18n';
@@ -51,6 +51,19 @@ const LoginForm: React.FC<LoginFormProps> = ({
       className="login-form"
       layout="vertical"
     >
+      <Form.Item>
+        <Segmented<'password' | 'platform'>
+          block
+          aria-label={t('login.submit', language)}
+          value={platform ? 'platform' : 'password'}
+          disabled={submitting}
+          options={[
+            { label: t('login.companyLogin', language), value: 'password' },
+            { label: t('login.platformLogin', language), value: 'platform' },
+          ]}
+          onChange={(mode) => setLoginMode(mode)}
+        />
+      </Form.Item>
       <Form.Item name="tenantId" hidden><Input autoComplete="off" /></Form.Item>
       <Form.Item
         hidden={platform}
@@ -179,19 +192,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
           className="login-button"
           size="large"
           loading={submitting}
+          disabled={!platform && tenantsLoading}
         >
           {loginMode === 'sms' ? '验证码登录' : t(platform ? 'login.platformLogin' : 'login.submit', language)}
         </Button>
       </Form.Item>
       <Form.Item wrapperCol={{ span: 24 }} style={{ marginBottom: 0 }}>
-        <Button
-          type="link"
-          className="login-register-button"
-          disabled={submitting}
-          onClick={() => setLoginMode(platform ? 'password' : 'platform')}
-        >
-          {t(platform ? 'login.companyLogin' : 'login.platformLogin', language)}
-        </Button>
         <Button
           type="link"
           onClick={() => navigate('/register')}
